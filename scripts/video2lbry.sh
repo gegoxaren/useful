@@ -38,7 +38,7 @@ __enc_mp4 () {
 }
 
 __parse_args() {
-  if [ -z "$1" ]
+  if [[ -z "$1" ]]
   then
     echo "Try --help or -h."
     exit 1
@@ -82,20 +82,20 @@ __parse_args() {
 }
 
 __main () {
-  if [ ! -e "$__IN_NAME" ]
+  if [[ ! -e "$__IN_NAME" ]]
   then
     echo "missing input audio. Please provide."
     exit 1
   fi
   
-  if [ $__OUT_NAME == "" ]
+  if [[ $__OUT_NAME == "" ]]
   then
     echo "missing output file name. Please provide."
     exit 1
   fi
   
   
-  if [ $__IN_NAME = ${__OUT_NAME}_lbry.mp4 ]
+  if [[ $__IN_NAME == ${__OUT_NAME}_lbry.mp4 ]]
   then
     echo "Filenames can't be the same."
     exit

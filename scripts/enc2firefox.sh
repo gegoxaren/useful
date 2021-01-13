@@ -68,7 +68,7 @@ __enc_webm () {
 }
 
 __parse_args() {
-  if [ -z "$1" ]
+  if [[ -z "$1" ]]
   then
     echo "Try --help or -h."
     exit 1
@@ -115,37 +115,37 @@ __parse_args() {
 }
 
 __main () {
-  if [ ! -e "$__IN_NAME" ]
+  if [[ ! -e "$__IN_NAME" ]]
   then
     echo "missing input audio. Please provide."
     exit 1
   fi
   
-  if [ $__OUT_NAME == "" ]
+  if [[ $__OUT_NAME == "" ]]
   then
     echo "missing output file name. Please provide."
     exit 1
   fi
   
   
-  if [ $__USE_WEBM = true ]
+  if [[ $__USE_WEBM == true ]]
   then
-    if [ $__IN_NAME = $__OUT_NAME.webm ]
+    if [[ $__IN_NAME == $__OUT_NAME.webm ]]
     then
       echo "Filenames can't be the same."
       exit
     fi
     __enc_webm
-  elif [ $__USE_FJ = true ]
+  elif [[ $__USE_FJ == true ]]
   then
-    if [ $__IN_NAME = $__OUT_NAME.mp4 ]
+    if [[ $__IN_NAME == $__OUT_NAME.mp4 ]]
     then
       echo "Filenames can't be the same."
       exit
     fi
     __enc_fj
   else
-    if [ $__IN_NAME = $__OUT_NAME.mp4 ]
+    if [[ $__IN_NAME == $__OUT_NAME.mp4 ]]
     then
       echo "Filenames can't be the same."
       exit

@@ -31,7 +31,7 @@ function __parse_youtube_url {
 }
 
 function __parse_args () {
-  if [ -z "$1" ]
+  if [[ -z "$1" ]]
   then
     echo "Try --help or -h."
     exit 1

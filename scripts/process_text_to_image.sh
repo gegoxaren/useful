@@ -100,7 +100,7 @@ main() {
   echo "DPI: $DPI"
   #echo "ESCAPED_CWD\: $ESCAPED_CWD"
   
-  if [ ! -e "$CWD/$IN_FILE" ]
+  if [[ ! -e "$CWD/$IN_FILE" ]]
   then
     echo "!!!in file does not exist!!!"
     echo ""
@@ -116,7 +116,7 @@ main() {
   cd "$CWD/tmp"
   
   # Now we can start the work for this.
-  if [ $_NO_PANDOC_HEADER = false ]
+  if [[ $_NO_PANDOC_HEADER == false ]]
   then
     # We add a special header to the file to make it pandoc know what to do.
     
@@ -145,7 +145,7 @@ main() {
   FINAL_IMAGE=""
   
   # If we invert the final image this is where we do it.
-  if [ $INVERT_COLOURS = true ]
+  if [[ $INVERT_COLOURS == true ]]
   then
     convert "$CWD/tmp/big-page.png" -channel RGB -negate "$CWD/tmp/big-page-inverted.png"
     FINAL_IMAGE="$CWD/tmp/big-page-inverted.png"
@@ -158,7 +158,7 @@ main() {
 
 
 parse_args() {
-  if [ -z "$1" ]
+  if [[ -z "$1" ]]
   then
     echo "Try --help or -h."
     exit 1
@@ -223,7 +223,7 @@ parse_args() {
 parse_args "${@}"
 main
 
-if [ $PERSERVE_TMP = true ]
+if [[ $PERSERVE_TMP = true ]]
 then
   echo "Not cleaning up!"
 else
