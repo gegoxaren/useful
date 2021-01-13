@@ -1,0 +1,114 @@
+General Rules for Contributions and Style Guide
+===============================================
+
+This document is provided to help keep the scripts provided by this
+branch/repository a consistent style for ease of reading and ease of hacking.
+
+Structure
+=========
+
+All scripts in this repository should follow the following structure, it is not
+set in stone or a hard requirement, but it is a good idea for the contributor
+(or hacker) to follow.
+
+For example take this hypothetical script as an example, but please use already
+existing scripts as a base for new scripts:
+
+```
+#!/usr/bin/env bash
+#####
+# FILE NAME: my_script.sh
+#
+# Provides a hypothetical example.
+#
+# Changes
+# 2021-01-01:
+#   * Some hypothetical change.
+#
+#####
+
+
+__MY_FLAG=0
+__MY_LIST=()
+__MY_STRING=""
+
+function __usage () {
+  echo ""
+  echo "my_script.sh [options]
+  echo ""
+  echo "  A short description of what this hypothetical script does."
+  echo ""
+  echo "  -h"
+  echo "  --help             Display this help message."
+  echo ""
+  # more arguments
+  echo ""
+}
+
+function __parse_args () {
+  # arguments parsing code here
+}
+
+# other functions here
+
+function __main () {
+  # The main body of the
+  # call other functions depending on the flags if needed.
+}
+
+__parse_args "${@}"
+__main
+```
+
+Bellow the different parts of the script will be discussed.
+
+Descriptor Comment
+------------------
+
+The first part of the script is the descriptor comment, it serves three
+functions:
+  1. Document the name of the file/script.
+  2. Describe what the script does in short.
+  3. Provide a changelog of the script.
+
+All scripts must provide this comment, following the template above.
+
+Global Variables/Flags
+----------------------
+
+Global variable must be declared at the start of the script, and the type should
+be declarable from how it is declared, and the type must not change throughout
+the lifetime of the script.
+
+All global variable must sart with two underlines, and be capitalised.
+
+Declaring a list:
+```
+__VARIABLE_NAME=()
+```
+
+Declaring a string:
+```
+__VARIABLE_NAME=""
+```
+
+Declaring a numerical value/flag:
+```
+__VARIABLE_NAME=0
+```
+
+Declaring a boolean flag:
+```
+__VARIABLE_NAME=false
+# or
+__VARIABLE_NAME=true
+```
+
+**Note on boolean values:** Boolean values don't actually exist in the bash
+environment, and are treated as strings by bash. If a true boolean value is
+needed declare use numerical `1` and `0`, or declare `true=1` and `false=0`.
+
+Use functions as Much as Possible
+---------------------------------
+
+
