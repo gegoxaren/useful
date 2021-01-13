@@ -8,6 +8,9 @@
 # 2020-09-05:
 #   * Removed an eval that made no sense.
 #   * Added FJ mode for those spicy memes.
+#
+# 2021-01-13:
+#   * Fixed up if statments
 ####################
 ARGS=()
 ARGS="${@}"

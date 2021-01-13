@@ -4,6 +4,11 @@
 #
 # Encodes videos so they are ready to be uploaded to LBRY.
 #
+# Changes
+# 2021-01-13
+#   * fixed up if statments
+#   * removed eval
+#
 ####################
 ARGS=()
 ARGS="${@}"
@@ -47,7 +52,6 @@ __parse_args() {
   
   while [[ $# -gt 0 ]]
   do
-    eval key="${1}"
     
     case "${1}" in
       -i)

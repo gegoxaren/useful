@@ -4,10 +4,14 @@
 # Changes
 #
 # 2018-09-03:
-# added --no-header for when you want to use your own pandoc header
+#   * added --no-header for when you want to use your own pandoc header
 #
 # 2018-09-22
-# Fixed --no-header... Seemed to have forgotten the "$" infront of the variable.
+#   * Fixed --no-header...
+#     Seemed to have forgotten the "$" infront of the variable.
+#
+# 2021-01-13
+#   * fixed up the if statments.
 #
 # ------
 
@@ -167,7 +171,6 @@ parse_args() {
   
   while [[ $# -gt 0 ]]
   do
-    eval key="${1}"
     
     case "${1}" in
       -i|--input)

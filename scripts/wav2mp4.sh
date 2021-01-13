@@ -1,5 +1,14 @@
 #!/usr/bin/env bash
 
+######
+# Changes
+#
+# 2021-01-31:
+#   * Fixed up if statments
+#   * Removed eval.
+#
+######
+
 ARGS=()
 ARGS="${@}"
 
@@ -49,7 +58,6 @@ __parse_args() {
   
   while [[ $# -gt 0 ]]
   do
-    eval key="${1}"
     
     case "${1}" in
       -i)
