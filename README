@@ -25,6 +25,9 @@ $ cd some_branch
 $ # do some hacking
 $ brz push lp:~username/useful/some_branch
 
+Please note that you can also use git on launchpad, please see:
+https://help.launchpad.net/Code/Git
+
 To push a branch to github, you have to set up git to work with github, then
 you can do the following:
 
