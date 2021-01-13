@@ -40,7 +40,7 @@ ___do_convertion () {
 
 
 __parse_args() {
-  if [ -z "$1" ]
+  if [[ -z "$1" ]]
   then
     echo "Try --help or -h."
     exit 1
@@ -388,7 +388,7 @@ CCHRhRASXQgh0YUQbP4fNTo1Xfmeq0IAAAAASUVORK5CYII="
 
 __main () {
   
-  if [ $__USE_DIFFERENT_IMAGE = true ]
+  if [[ $__USE_DIFFERENT_IMAGE == true ]]
   then
     # Let's not make this any more complicated.
     __TMP_IMAGE_NAME=$__OTHER_IMAGE_NAME
@@ -396,13 +396,13 @@ __main () {
     __write_image
   fi
   
-  if [ ! -e "$__IN_NAME" ]
+  if [[ ! -e "$__IN_NAME" ]]
   then
     echo "missing input audio. Please provide."
     exit 1
   fi
   
-  if [ $__OUT_NAME == "" ]
+  if [[ $__OUT_NAME == "" ]]
   then
     echo "missing output file name. Please provide."
     exit 1
@@ -411,7 +411,7 @@ __main () {
   
   ___do_convertion
   
-  if [ $__USE_DIFFERENT_IMAGE = false ]
+  if [[ $__USE_DIFFERENT_IMAGE == false ]]
   then
     __do_cleanup
   fi
