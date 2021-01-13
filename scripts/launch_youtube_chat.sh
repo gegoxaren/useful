@@ -1,7 +1,9 @@
 #!/usr/bin/env bash
 ####
 # FILE NAME: launch_youtube_chat.sh
+#
 # Launch a web browser with the chat pop-out for a YouTube live stream.
+#
 ####
 ARGS=()
 ARGS="${@}"
