@@ -1,5 +1,13 @@
 Useful Scripts.
 
+This provides a set of -- what I find -- useful scripts. If you find any of them
+useful, feel free to use them to your hearts content
+
+THESE SCRIPTS ARE PROVIDED WITHOUT ANY WARRANTY. USE AT YOUR OWN RISK.
+
+
+--------------------------------------------------------------------------------
+
 Get main repository:
 
 $ mkdir useful
@@ -11,10 +19,16 @@ $ cd my_branch
 To you can do a merge request on both GitHub and Launchpad, but I prefer it
 if you use launchpad.
 
+$ cd path/to/useful
+$ brz branch trunk some_branch
+$ cd some_branch
+$ # do some hacking
+$ brz push lp:~username/useful/some_branch
+
 To push a branch to github, you have to set up git to work with github, then
 you can do the following:
 
-$ cd path/to/useful/my_branch
+$ cd path/to/useful/some_branch
 $ brz push --lossy github:username/useful,branch=my_branch
 
 To pull from GitHub (into a bazaar tree):
@@ -22,16 +36,20 @@ To pull from GitHub (into a bazaar tree):
 $ cd path/to/useful
 $ brz branch trunk some_branch
 $ cd some_branch
-$ brz pull https://github.com/username/useful,branch=some_branch
+$ brz pull github:username/useful,branch=some_branch
 
 You can also use brz transparently with git, this will pull the repo as git:
 
 $ cd path/to/useful
-$ brz branch https://github.com/username/useful,branch=some_branch some_branch
+$ brz branch github:username/useful.git some_branch
 
 You can then merge from and to the bazaar tree.
 
-This provides a set of -- what I find -- useful scripts. If you find any of them
-useful, feel free to use them to your hearts content.
+$ cd some_bzr_branch
+$ brz diff ../some_git_branch.git
 
-THESE SCRIPTS ARE PROVIDED WITHOUT ANY WARRANTY. USE AT YOUR OWN RISK.
+or
+
+$ cd some_git_branch.git
+$ brz diff ../some_bzr_branch
+
