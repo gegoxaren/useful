@@ -63,11 +63,20 @@ function __parse_args () {
   done
 }
 
+####
+# Utility function that prints what what is being executed.
+# See: https://stackoverflow.com/a/23342259
+####
+function __exe () { echo "    $@" ; "$@" ; }
+
 function __main () {
   if [[ $__INSTALL_SET == 1 ]]
   then
-    mkdir -p $__INSTALL_DIR
-    cp $__CWD/scripts/*.sh $__INSTALL_DIR/
+    __exe mkdir -p $__INSTALL_DIR
+    for __file__ in $__CWD/scripts/*.sh
+    do
+      __exe cp $__file__ $__INSTALL_DIR/
+    done
   else
     echo ""
     echo "YOU MUST PROVIE -i OR --install FOR IT TO INSTALL THE SCRIPTS."
