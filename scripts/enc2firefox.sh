@@ -14,12 +14,12 @@
 #
 ####
 
-__IN_NAME=
-__OUT_NAME=
+__IN_NAME=""
+__OUT_NAME=""
 __USE_WEBM=false
 __USE_FJ=false
 
-__help () {
+__usage () {
   echo "enc2firefox.sh -- Make Videos Playable in Firefox"
   echo " "
   echo "-i <input video file>     Input Video File."
@@ -100,11 +100,11 @@ __parse_args() {
       shift
       ;;
       -h|--help)
-      __help
+      __usage
       shift
       ;;
       *)
-      __help
+      __usage
       exit 1
       shift
       ;;
