@@ -11,17 +11,14 @@
 #
 ######
 
-ARGS=()
-ARGS="${@}"
-
 __TMP_IMAGE_NAME=__SPEAKER_IMAGE.PNG
-__OUT_NAME=
-__IN_NAME=
+__OUT_NAME=""
+__IN_NAME=""
 
 __USE_DIFFERENT_IMAGE=false
-__OTHER_IMAGE_NAME=
+__OTHER_IMAGE_NAME=""
 
-__help () {
+function __usage () {
   echo "wav2mp4.sh --- Convert audio to a video for upload. "
   echo " "
   echo "-i <audio.wav>        The input audio."
@@ -35,11 +32,11 @@ __help () {
   exit
 }
 
-__do_cleanup () {
+function __do_cleanup () {
   rm $__TMP_IMAGE_NAME
 }
 
-___do_convertion () {
+function __do_convertion () {
   ffmpeg -loop 1\
          -i "$__TMP_IMAGE_NAME"\
          -i "$__IN_NAME"\
@@ -50,7 +47,7 @@ ___do_convertion () {
 }
 
 
-__parse_args() {
+function __parse_args () {
   if [[ -z "$1" ]]
   then
     echo "Try --help or -h."
@@ -79,12 +76,12 @@ __parse_args() {
       shift
       ;;
       -h|--help)
-      __help
+      __usage
       exit
       shift
       ;;
       *)
-      __help
+      __usage
       exit 1
       shift
       ;;
@@ -97,7 +94,7 @@ __parse_args() {
 }
 
 
-__write_image () {
+function __write_image () {
   __IMAGE_BASE64="iVBORw0KGgoAAAANSUhEUgAAAfQAAAH0CAQAAABh3xcBAAAZEHpUWHRSYXcgcHJvZmlsZSB0eXBl
 IGV4aWYAAHja1ZtZdhy3GYXfsYosAfOwHIznZAdZfr6LalEURdmmnDyYdNRks7oK+Ic7AIjZ//n3
 Mf/iKxebTUyl5paz5Su22Hznh2qfr+fV2Xj/vV8nvn5yP75v3v7geQ28hucPeT+vrvN++v6BEl/v
@@ -396,7 +393,7 @@ CCHRhRASXQgh0YUQbP4fNTo1Xfmeq0IAAAAASUVORK5CYII="
 }
 
 
-__main () {
+function __main () {
   
   if [[ $__USE_DIFFERENT_IMAGE == true ]]
   then
@@ -419,7 +416,7 @@ __main () {
   fi
   
   
-  ___do_convertion
+  __do_convertion
   
   if [[ $__USE_DIFFERENT_IMAGE == false ]]
   then

@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
-
-# ------
+####
+# FILE NAME process_text_to_image.sh
+#
 # Changes
 #
 # 2018-09-03:
@@ -13,36 +14,34 @@
 # 2021-01-13
 #   * fixed up the if statments.
 #
-# ------
+####
 
-ARGS=()
-ARGS="${@}"
 
-DPI=300
+__DPI=300
 
-IN_FILE=
-OUT_FILE=big_image
-PERSERVE_TMP=false
-INVERT_COLOURS=false
-_NO_PANDOC_HEADER=false
+__IN_FILE=
+__OUT_FILE=big_image
+__PERSERVE_TMP=false
+__INVERT_COLOURS=false
+__NO__PANDOC_HEADER=false
 
-CWD=$PWD
+__CWD=$PWD
 
-_PANDOC_HEADER="
+__PANDOC_HEADER="
 geometry: margin=0.5cm
 papersize: a5
 mainfont: DejaVu Serif
 fontsize: 12pt
 "
 
-TITLE=""
+__TITLE=""
 
 echo "-----"
 echo "---"
 echo "--"
 echo "-"
 
-print_help() {
+function __usage () {
   
   echo "process_text_to_image.sh - Takes one text file and convernts it to a single"
   echo "image using pandoc, xelatex, imagemagick, pdftoppm, pdfcrop"
@@ -62,7 +61,7 @@ print_help() {
   echo "-o <file>	--output <file>"
   echo "	The image to output to. (Default=big_image.png)"
   echo ""
-  echo "-d <integer>	--dpi <integer>"
+  echo "-d <integer>	-- dpi <integer>"
   echo "	Set the dpi of the intermediate image relative to an a5 paper."
   echo "	(Default=300)"
   echo ""
@@ -77,7 +76,7 @@ print_help() {
   echo ""
   echo "--no-header"
   echo "	Do not insert the pandoc header. (Default:"
-  echo "$_PANDOC_HEADER"
+  echo "$__PANDOC_HEADER"
   echo ")"
   echo ""
   echo "---------------------"
@@ -91,20 +90,16 @@ print_help() {
   echo "---------------------"
 }
 
-
-
-
-
-main() {
+function __main () {
   #ESCAPED_CWD=$(echo ${CWD} | sed 's/ /\\ /g' | sed "s/'/\\\'/g" )
   
-  echo "IN_FILE\: $IN_FILE"
-  echo "OUT_FILE\: $OUT_FILE"
-  echo "CWD\: $CWD"
-  echo "DPI: $DPI"
+  echo "__IN_FILE\: $__IN_FILE"
+  echo "__OUT_FILE\: $__OUT_FILE"
+  echo "CWD\: $__CWD"
+  echo "__DPI: $__DPI"
   #echo "ESCAPED_CWD\: $ESCAPED_CWD"
   
-  if [[ ! -e "$CWD/$IN_FILE" ]]
+  if [[ ! -e "$__CWD/$__IN_FILE" ]]
   then
     echo "!!!in file does not exist!!!"
     echo ""
@@ -113,55 +108,65 @@ main() {
   fi
   
   # first we create a temp folder.
-  mkdir -p "$CWD/tmp"
+  mkdir -p "$__CWD/tmp"
   
   #next we want to copy our file into it.
-  cp "$CWD/$IN_FILE" "$CWD/tmp/text.txt"
-  cd "$CWD/tmp"
+  cp "$__CWD/$__IN_FILE" "$__CWD/tmp/text.txt"
+  cd "$__CWD/tmp"
   
   # Now we can start the work for this.
-  if [[ $_NO_PANDOC_HEADER == false ]]
+  if [[ $__NO__PANDOC_HEADER == false ]]
   then
     # We add a special header to the file to make it pandoc know what to do.
     
-    printf '%s\n' "---" "$(cat "$CWD/tmp/text.txt")" > "$CWD/tmp/text.txt"
-    if [ -n TITLE="" ]
+    printf '%s\n' "---" "$(cat "$__CWD/tmp/text.txt")" > "$__CWD/tmp/text.txt"
+    if [ -n __TITLE="" ]
     then
-      printf '%s\n' "title: ${TITLE}" "$(cat "$CWD/tmp/text.txt")" > "$CWD/tmp/text.txt"
+      printf '%s\n' "title: ${__TITLE}" "$(cat "$__CWD/tmp/text.txt")" > "$__CWD/tmp/text.txt"
     fi
     
-    printf '%s' "$_PANDOC_HEADER" "$(cat "$CWD/tmp/text.txt")" > "$CWD/tmp/text.txt"
+    printf '%s' "$__PANDOC_HEADER" "$(cat "$__CWD/tmp/text.txt")" > "$__CWD/tmp/text.txt"
     
-    printf '%s' "---" "$(cat "$CWD/tmp/text.txt")" > "$CWD/tmp/text.txt"
+    printf '%s' "---" "$(cat "$__CWD/tmp/text.txt")" > "$__CWD/tmp/text.txt"
   fi
   
   # Now we use pandoc to do to convert it to a PDF.
-  pandoc --pdf-engine=xelatex "$CWD/tmp/text.txt" -o "$CWD/tmp/text.pdf"
+  pandoc --pdf-engine=xelatex "$__CWD/tmp/text.txt" -o "$__CWD/tmp/text.pdf"
   
-  pdfcrop --margins '10 5 10 5' "$CWD/tmp/text.pdf" "$CWD/tmp/text-croped.pdf"
+  pdfcrop --margins '10 5 10 5' "$__CWD/tmp/text.pdf" "$__CWD/tmp/text-croped.pdf"
   
   # Convert it to images
-  pdftoppm "$CWD/tmp/text-croped.pdf" "$CWD/tmp/page" -png -rx $DPI -ry $DPI -gray
+  pdftoppm "$__CWD/tmp/text-croped.pdf" "$__CWD/tmp/page" -png -rx $__DPI -ry $__DPI -gray
   
   # convert make the colour space greyscale and the append to each other
-  convert -append -colorspace gray +matte -depth 8 "$CWD/tmp/page-*.png" "$CWD/tmp/big-page.png"
+  convert -append -colorspace gray +matte -depth 8 "$__CWD/tmp/page-*.png" "$__CWD/tmp/big-page.png"
   
   FINAL_IMAGE=""
   
   # If we invert the final image this is where we do it.
-  if [[ $INVERT_COLOURS == true ]]
+  if [[ $__INVERT_COLOURS == true ]]
   then
-    convert "$CWD/tmp/big-page.png" -channel RGB -negate "$CWD/tmp/big-page-inverted.png"
-    FINAL_IMAGE="$CWD/tmp/big-page-inverted.png"
+    convert "$__CWD/tmp/big-page.png" -channel RGB -negate "$__CWD/tmp/big-page-inverted.png"
+    FINAL_IMAGE="$__CWD/tmp/big-page-inverted.png"
   else
-    FINAL_IMAGE="$CWD/tmp/big-page.png"
+    FINAL_IMAGE="$__CWD/tmp/big-page.png"
   fi
   
-  cp "$FINAL_IMAGE" "$CWD/$OUT_FILE.png"
+  cp "$FINAL_IMAGE" "$__CWD/$__OUT_FILE.png"
+  
+  ####
+  # Cleanup of eveything.
+  ####
+  if [[ $__PERSERVE_TMP == true ]]
+  then
+    echo "Not cleaning up!"
+  else
+    rm -r "$__CWD/tmp"
+  fi
 }
 
 
-parse_args() {
+function __parse_args () {
   if [[ -z "$1" ]]
   then
     echo "Try --help or -h."
@@ -174,39 +179,39 @@ parse_args() {
     
     case "${1}" in
       -i|--input)
-      IN_FILE="$2"
+      __IN_FILE="$2"
       shift
       shift
       ;;
       -o|--output)
-      OUT_FILE="$2"
+      __OUT_FILE="$2"
       shift
       shift
       ;;
       -t|--title)
-      TITLE="$2"
+      __TITLE="$2"
       shift
       shift
       ;;
       -d|--dpi)
-      DPI="$2"
+      __DPI="$2"
       shift
       shift
       ;;
       -p|--perserve)
-      PERSERVE_TMP=true
+      __PERSERVE_TMP=true
       shift
       ;;
       --invert)
-      INVERT_COLOURS=true
+      __INVERT_COLOURS=true
       shift
       ;;
       --no-header)
-      _NO_PANDOC_HEADER=true
+      __NO__PANDOC_HEADER=true
       shift
       ;;
       -h|--help)
-      print_help
+      __usage
       exit
       shift
       ;;
@@ -223,20 +228,10 @@ parse_args() {
   done
 }
 
-parse_args "${@}"
-main
-
-if [[ $PERSERVE_TMP = true ]]
-then
-  echo "Not cleaning up!"
-else
-  rm -r "$CWD/tmp"
-fi
+__parse_args "${@}"
+__main
 
 echo "-"
 echo "--"
 echo "---"
 echo "----"
-
-
-

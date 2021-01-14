@@ -16,7 +16,7 @@ existing scripts as a base for new scripts:
 
 ```
 #!/usr/bin/env bash
-#####
+####
 # FILE NAME: my_script.sh
 #
 # Provides a hypothetical example.
@@ -25,7 +25,7 @@ existing scripts as a base for new scripts:
 # 2021-01-01:
 #   * Some hypothetical change.
 #
-#####
+####
 
 
 __MY_FLAG=0

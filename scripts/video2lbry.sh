@@ -10,11 +10,9 @@
 #   * removed eval
 #
 ####################
-ARGS=()
-ARGS="${@}"
 
-__IN_NAME=
-__OUT_NAME=
+__IN_NAME=""
+__OUT_NAME=""
 
 __help () {
   echo "video2lbry.sh -- Make vide ready for upload to LBRY."

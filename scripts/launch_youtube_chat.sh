@@ -5,8 +5,6 @@
 # Launch a web browser with the chat pop-out for a YouTube live stream.
 #
 ####
-ARGS=()
-ARGS="${@}"
 
 
 __DEFAULT_BROWSER=xdg-open

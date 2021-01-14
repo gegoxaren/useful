@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-###################
+####
 # FILE NAME: enc2firefox.sh
 #
 # Encodes (mp4/x264) videos so they can be played in firefox.
@@ -12,9 +12,7 @@
 # 2021-01-13:
 #   * Fixed up if statments
 #
-####################
-ARGS=()
-ARGS="${@}"
+####
 
 __IN_NAME=
 __OUT_NAME=

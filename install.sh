@@ -1,11 +1,10 @@
 #!/usr/bin/env bash
-
-##
+####
+# FILE NAME install.sh
+#
 # Install script for these scripts.
-##
-
-ARGS=()
-ARGS="${@}"
+#
+####
 
 
 __INSTALL_DIR=$HOME/bin
