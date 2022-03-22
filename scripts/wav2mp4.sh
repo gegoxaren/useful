@@ -9,6 +9,9 @@
 #   * Fixed up if statments
 #   * Removed eval.
 #
+# 2022-03-22:
+#   * Make script work with gifs, and Make gifs loop.
+#
 ######
 
 __TMP_IMAGE_NAME=__SPEAKER_IMAGE.PNG
@@ -18,6 +21,8 @@ __IN_NAME=""
 __USE_DIFFERENT_IMAGE=false
 __OTHER_IMAGE_NAME=""
 
+__LOOP=false
+
 function __usage () {
   echo "wav2mp4.sh --- Convert audio to a video for upload. "
   echo " "
@@ -25,9 +30,9 @@ function __usage () {
   echo " "
   echo "-o <video.mp4>        The output for the video."
   echo " "
-  echo "--image <image.png>   Image to use. If non is provided a standard image"
+  echo "--image <image.[png,gif]>"
+  echo "                      Image to use. If non is provided a standard image"
   echo "                      will be used."
-  echo " "
   echo ""
   exit
 }
@@ -36,14 +41,34 @@ function __do_cleanup () {
   rm $__TMP_IMAGE_NAME
 }
 
+function __do_convertion_gif () {
+    ffmpeg\
+           -i "$__IN_NAME"\
+           -ignore_loop 0\
+           -i "$__TMP_IMAGE_NAME"\
+           -c:v libx264 -tune stillimage\
+           -c:a aac -b:a 256k -pix_fmt yuv420p\
+           -vf "pad=ceil(iw/2)*2:ceil(ih/2)*2" -shortest\
+           "$__OUT_NAME"
+}
+
 function __do_convertion () {
-  ffmpeg -loop 1\
-         -i "$__TMP_IMAGE_NAME"\
-         -i "$__IN_NAME"\
-         -c:v libx264 -tune stillimage\
-         -c:a aac -b:a 256k -pix_fmt yuv420p\
-         -vf "pad=ceil(iw/2)*2:ceil(ih/2)*2" -shortest\
-         "$__OUT_NAME"
+  
+  case $__TMP_IMAGE_NAME in
+    ## FIXME: See if there are othre fileformats that need looping and such.
+    *.gif)
+      __do_convertion_gif
+    ;;
+    *)
+      ffmpeg -loop 1\
+            -i "$__TMP_IMAGE_NAME"\
+            -i "$__IN_NAME"\
+            -c:v libx264 -tune stillimage\
+            -c:a aac -b:a 256k -pix_fmt yuv420p\
+            -vf "pad=ceil(iw/2)*2:ceil(ih/2)*2" -shortest\
+            "$__OUT_NAME"
+     ;;
+  esac
 }
 
 
@@ -60,28 +85,32 @@ function __parse_args () {
     
     case "${1}" in
       -i)
-      __IN_NAME="$2"
+        __IN_NAME="$2"
       shift
       shift
       ;;
       -o)
-      __OUT_NAME="$2"
+        __OUT_NAME="$2"
       shift
       shift
       ;;
       --image)
-      __USE_DIFFERENT_IMAGE=true
-      __OTHER_IMAGE_NAME="$2"
+        __USE_DIFFERENT_IMAGE=true
+        __OTHER_IMAGE_NAME="$2"
       shift
       shift
       ;;
+      --loop)
+        __LOOP=true
+      shift
+      ;;
       -h|--help)
-      __usage
+        __usage
       exit
       shift
       ;;
       *)
-      __usage
+        __usage
       exit 1
       shift
       ;;
