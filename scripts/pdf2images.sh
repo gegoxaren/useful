@@ -1,91 +1,99 @@
 #!/usr/bin/env bash
 
-___ARGS=$@
+####
+# FILE NAME pdf2images.sh
+# 
+# Changes:
+#
+#  2024-07-10
+#    * Initial version
+#    *
+####
 
-___FILE=""
-___FIRST_PAGE=0
-___LAST_PAGE=0
-___SANITY=1
-___SCALE=250
-___HAS_OPTIPNG=1
+__FILE=""
+__FIRST_PAGE=0
+__LAST_PAGE=0
+__SCALE=250
+__SANITY=true
+__HAS_OPTIPNG=false
 
-function ___usage () {
+function __usage () {
   echo "pdf2images.sh --- Convert a range of pdf pages into pngs."
   echo "USAGE:"
   echo "    pdf2images.sh <file>.pdf <first page> <last page>"
   echo ""
 }
 
-function ___silent () {
+function __silent () {
   $@ >> /dev/null 2>&1
   return $?
 }
 
-function ___sanity_check () {
+function __sanity_check () {
   # Check that we have the tools needed.
-  ___silent which pdftoppm 
+  __silent which pdftoppm 
 
   if [ $? -gt 0 ]; then
     echo "    Can't find tool \"pdftoppm\" (Required)."
-    ___SANITY=0
+    __SANITY=false
   fi
 
-  ___silent which optipng
+  __silent which optipng
   if [ $? -gt 0 ]; then
     echo "    Can't find tool \"optpng\" (Not required)."
-    ___HAS_OPTIPNG=0
+    __HAS_OPTIPNG=false
   fi
   
-  if [ $___SANITY -eq 0 ]; then
+  if [[ $__SANITY == false ]]; then
     echo "Please install the missing tools."
     echo ""
     exit 1
   fi
 }
 
-function ___process () {
+function __process () {
 
-  pdftoppm -f $___FIRST\
-           -l $___LAST\
-           -r $___SCALE\
+  pdftoppm -f $__FIRST\
+           -l $__LAST\
+           -r $__SCALE\
            -gray\
            -png\
            -progress\
-           $___FILE\
-           ${___FILE%%.*}
+           $__FILE\
+           ${__FILE%%.*}
 
-  if [ $___HAS_OPTIPNG -eq 1 ]; then
-    optipng ${___FILE%%.*}*.png
+  if [[ $__HAS_OPTIPNG == true ]]; then
+    optipng ${__FILE%%.*}*.png
   fi
 }
 
-function ___parse_args () {
+function __parse_args () {
   if [ $# -eq 0 ]; then
-    ___usage
+    __usage
     exit 1
   fi
   
-  ___FILE=$1
+  __FILE=$1
   shift
-  ___FIRST=$1
+  __FIRST=$1
   shift
-  ___LAST=$1
+  __LAST=$1
   shift
 
   if [ $# -ne 0 ]; then
     echo "Nummber of arguments missmatch."
     echo ""
-    ___usage
+    __usage
     exit 1
   fi
 }
 
-function ___main () {
-  ___sanity_check
-  ___parse_args $___ARGS
-  ___process
+function __main () {
+  __sanity_check
+  __parse_args "${@}"
+  __process
   exit 0
 }
 
-___main
+__main "${@}"
 
