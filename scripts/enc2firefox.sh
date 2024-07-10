@@ -12,6 +12,9 @@
 # 2021-01-13:
 #   * Fixed up if statments
 #
+# 2024-07-10
+#  * Simplefied if-else-statement.
+#
 ####
 
 __IN_NAME=""
@@ -117,42 +120,31 @@ __parse_args() {
 }
 
 __main () {
-  if [[ ! -e "$__IN_NAME" ]]
-  then
+  if [[ ! -e "$__IN_NAME" ]]; then
     echo "missing input audio. Please provide."
     exit 1
   fi
   
-  if [[ $__OUT_NAME == "" ]]
-  then
+  if [[ $__OUT_NAME == "" ]]; then
     echo "missing output file name. Please provide."
     exit 1
   fi
-  
-  
-  if [[ $__USE_WEBM == true ]]
-  then
-    if [[ $__IN_NAME == $__OUT_NAME.webm ]]
-    then
+ 
+  if [[ $__USE_WEBM == true ]]; then
+    if [[ $__IN_NAME == $__OUT_NAME.webm ]]; then
       echo "Filenames can't be the same."
       exit
     fi
     __enc_webm
-  elif [[ $__USE_FJ == true ]]
-  then
-    if [[ $__IN_NAME == $__OUT_NAME.mp4 ]]
-    then
-      echo "Filenames can't be the same."
-      exit
+  elif [[ $__IN_NAME == $__OUT_NAME.mp4 ]]; then
+    if [[ $__USE_FJ == true ]]; then
+      __enc_fj
+    else
+      __enc_mp4
     fi
-    __enc_fj
   else
-    if [[ $__IN_NAME == $__OUT_NAME.mp4 ]]
-    then
-      echo "Filenames can't be the same."
-      exit
-    fi
-    __enc_mp4
+    echo " Input and output files can't be the same."
+    exit
   fi
 }
 
