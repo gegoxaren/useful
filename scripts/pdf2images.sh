@@ -9,8 +9,8 @@ ___SANITY=1
 ___SCALE=250
 ___HAS_OPTIPNG=1
 
-function ___help () {
-  echo "Convert a range of pages into pngs."
+function ___usage () {
+  echo "pdf2images.sh --- Convert a range of pdf pages into pngs."
   echo "USAGE:"
   echo "    pdf2images.sh <file>.pdf <first page> <last page>"
   echo ""
@@ -61,7 +61,7 @@ function ___process () {
 
 function ___parse_args () {
   if [ $# -eq 0 ]; then
-    ___help
+    ___usage
     exit 1
   fi
   
@@ -75,7 +75,7 @@ function ___parse_args () {
   if [ $# -ne 0 ]; then
     echo "Nummber of arguments missmatch."
     echo ""
-    ___help
+    ___usage
     exit 1
   fi
 }

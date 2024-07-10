@@ -12,9 +12,16 @@
 # 2022-03-22:
 #   * Make script work with gifs, and Make gifs loop.
 #
+# 2024-07-10:
+#   * Fixed some formating errors.
+#   * Added sanity check.
+#   * Use /tmp/ instead of writing to FS.
 ######
 
-__TMP_IMAGE_NAME=__SPEAKER_IMAGE.PNG
+__SANITY=true
+
+# FIXME: Use mktemp or mkdtemp instea of usin /tmp/ directly
+__TMP_IMAGE_NAME=/tmp/__SPEAKER_IMAGE.PNG
 __OUT_NAME=""
 __IN_NAME=""
 
@@ -31,10 +38,31 @@ function __usage () {
   echo "-o <video.mp4>        The output for the video."
   echo " "
   echo "--image <image.[png,gif]>"
-  echo "                      Image to use. If non is provided a standard image"
+  echo "                      Image to use. If none is provided a standard image"
   echo "                      will be used."
   echo ""
-  exit
+  exit 0
+}
+
+function __silent () {
+  $@ >> /dev/null 2>&1
+  return $?
+}
+
+function __sanity_check () {
+  # Check that we have the tools needed.
+  ___silent which ffmpeg 
+
+  if [[ $? -gt 0 ]]; then
+    echo "    Can't find tool \"ffmpeg\" (Required)."
+    __SANITY=false
+  fi
+  
+  if [[ $___SANITY == false ]]; then
+    echo "Please install the missing tools."
+    echo ""
+    exit 1
+  fi
 }
 
 function __do_cleanup () {
@@ -42,14 +70,14 @@ function __do_cleanup () {
 }
 
 function __do_convertion_gif () {
-    ffmpeg\
-           -i "$__IN_NAME"\
-           -ignore_loop 0\
-           -i "$__TMP_IMAGE_NAME"\
-           -c:v libx264 -tune stillimage\
-           -c:a aac -b:a 256k -pix_fmt yuv420p\
-           -vf "pad=ceil(iw/2)*2:ceil(ih/2)*2" -shortest\
-           "$__OUT_NAME"
+  ffmpeg\
+         -i "$__IN_NAME"\
+         -ignore_loop 0\
+         -i "$__TMP_IMAGE_NAME"\
+         -c:v libx264 -tune stillimage\
+         -c:a aac -b:a 256k -pix_fmt yuv420p\
+         -vf "pad=ceil(iw/2)*2:ceil(ih/2)*2" -shortest\
+         "$__OUT_NAME"
 }
 
 function __do_convertion () {
@@ -60,14 +88,15 @@ function __do_convertion () {
       __do_convertion_gif
     ;;
     *)
-      ffmpeg -loop 1\
-            -i "$__TMP_IMAGE_NAME"\
-            -i "$__IN_NAME"\
-            -c:v libx264 -tune stillimage\
-            -c:a aac -b:a 256k -pix_fmt yuv420p\
-            -vf "pad=ceil(iw/2)*2:ceil(ih/2)*2" -shortest\
-            "$__OUT_NAME"
-     ;;
+    
+    ffmpeg -loop 1\
+           -i "$__TMP_IMAGE_NAME"\
+           -i "$__IN_NAME"\
+           -c:v libx264 -tune stillimage\
+           -c:a aac -b:a 256k -pix_fmt yuv420p\
+           -vf "pad=ceil(iw/2)*2:ceil(ih/2)*2" -shortest\
+           "$__OUT_NAME"
+    ;;
   esac
 }
 
@@ -423,7 +452,9 @@ CCHRhRASXQgh0YUQbP4fNTo1Xfmeq0IAAAAASUVORK5CYII="
 
 
 function __main () {
-  
+  __sanity_check
+  __parse_args "${@}"
+
   if [[ $__USE_DIFFERENT_IMAGE == true ]]
   then
     # Let's not make this any more complicated.
@@ -444,7 +475,6 @@ function __main () {
     exit 1
   fi
   
-  
   __do_convertion
   
   if [[ $__USE_DIFFERENT_IMAGE == false ]]
@@ -453,5 +483,4 @@ function __main () {
   fi
 }
 
-__parse_args "${@}"
-__main
+__main "${@}"
