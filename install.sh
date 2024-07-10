@@ -49,7 +49,7 @@ function __parse_args () {
       ;;
       --target)
       __INSTALL_DIR="${2}"
-      exit
+      shift
       shift
       ;;
       *)
