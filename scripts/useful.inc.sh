@@ -41,7 +41,7 @@ function __silent () {
 function __find_tool () {
   __silent which $1
 
-  if [ $? -gt 0 ]; then
+  if [[ $? > 0 ]]; then
     echo "    Can't find tool \"${1}\"."
     __SANITY=false
   fi

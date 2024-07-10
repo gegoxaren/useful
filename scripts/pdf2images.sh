@@ -17,6 +17,9 @@ __SCALE=250
 __SANITY=true
 __HAS_OPTIPNG=false
 
+__SCRIPT_ROOT=$(dirname $(readlink -f $0))
+source $__SCRIPT_ROOT/useful.inc.sh
+
 function __usage () {
   echo "pdf2images.sh --- Convert a range of pdf pages into pngs."
   echo "USAGE:"
@@ -24,19 +27,9 @@ function __usage () {
   echo ""
 }
 
-function __silent () {
-  $@ >> /dev/null 2>&1
-  return $?
-}
-
 function __sanity_check () {
   # Check that we have the tools needed.
-  __silent which pdftoppm 
-
-  if [ $? -gt 0 ]; then
-    echo "    Can't find tool \"pdftoppm\" (Required)."
-    __SANITY=false
-  fi
+  __find_tool pdftoppm
 
   __silent which optipng
   if [ $? -gt 0 ]; then
@@ -45,6 +38,7 @@ function __sanity_check () {
   fi
   
   if [[ $__SANITY == false ]]; then
+    echo ""
     echo "Please install the missing tools."
     echo ""
     exit 1

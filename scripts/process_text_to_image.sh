@@ -43,6 +43,10 @@ __AUTHOR=""
 
 __SANITY=true
 
+
+__SCRIPT_ROOT=$(dirname $(readlink -f $0))
+source $__SCRIPT_ROOT/useful.inc.sh
+
 function __usage () {
   
   echo "process_text_to_image.sh - Takes one text file and convernts it to a single"
@@ -95,19 +99,6 @@ function __usage () {
   echo "---------------------"
 }
 
-function __silent () {
-  $@ >> /dev/null 2>&1
-  return $?
-}
-
-function __find_tool () {
-  __silent which $1
-
-  if [ $? -gt 0 ]; then
-    echo "    Can't find tool \"${1}\"."
-    ___SANITY=false
-  fi
-}
 
 function __sanity_check () {
   # Check that we have the tools needed.
@@ -117,7 +108,8 @@ function __sanity_check () {
   __find_tool pdftoppm
   __find_tool pdfcrop
 
-  if [[ $___SANITY == true ]]; then
+  if [[ $__SANITY == false ]]; then
+    echo ""
     echo "Please install the missing tools."
     echo ""
     exit 1
