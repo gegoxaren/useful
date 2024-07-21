@@ -2,6 +2,10 @@
 
 ####
 # FILE NAME useful.inc.sh
+#
+# Authors:
+#    Gustav Hartvigsson 2024
+#    Distributed under the Cool Licence 1.1
 # 
 # PURPOSE
 #   This file provides usefule bash libary functions.

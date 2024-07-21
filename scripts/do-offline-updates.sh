@@ -4,6 +4,10 @@
 ####
 # FILE NAME do-offline-updates.sh
 #
+# Authors:
+#    Gustav Hartvigsson 2024
+#    Distributed under the Cool Licence 1.1
+#
 ####
 
 __UPDATES_AVAILABLE=false

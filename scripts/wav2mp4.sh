@@ -3,6 +3,10 @@
 ######
 # FILE NAME: wav2mp4.sh
 #
+# Authors:
+#    Gustav Hartvigsson 2024
+#    Distributed under the Cool Licence 1.1
+#
 # Changes
 #
 # 2021-01-31:

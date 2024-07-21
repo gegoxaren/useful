@@ -2,6 +2,10 @@
 ####
 # FILE NAME process_text_to_image.sh
 #
+# Authors:
+#    Gustav Hartvigsson 2024
+#    Distributed under the Cool Licence 1.1
+#
 # Changes
 #
 # 2018-09-03:

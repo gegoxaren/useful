@@ -2,6 +2,10 @@
 #####
 # FILE NAME: mp32opus.sh
 #
+# Authors:
+#    Gustav Hartvigsson 2024
+#    Distributed under the Cool Licence 1.1
+#
 # Convert Audiobooks (mp3) to Opus with cover-art preserved.
 #
 # FIXME:

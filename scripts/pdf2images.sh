@@ -3,6 +3,10 @@
 ####
 # FILE NAME pdf2images.sh
 # 
+# Authors:
+#    Gustav Hartvigsson 2024
+#    Distributed under the Cool Licence 1.1
+#
 # Changes:
 #
 #  2024-07-10

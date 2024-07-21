@@ -2,6 +2,10 @@
 ####
 # FILE NAME: enc2firefox.sh
 #
+# Authors:
+#    Gustav Hartvigsson 2024
+#    Distributed under the Cool Licence 1.1
+#
 # Encodes (mp4/x264) videos so they can be played in firefox.
 #
 # Updates:

@@ -1,5 +1,16 @@
 #!/usr/bin/env bash
 
+####
+# FILE NAME lock-and-suspend.sh
+#
+# Lock and suspend a LightDM Session.
+#
+# Authors:
+#   Gustav Hartvigsson 2024
+#   Distributed under the Cool Licence 1.1
+####
+
+
 __SYSTEM=""
 #FIXME: Auto detect DM?
 __DM_TOOL="dm-tool lock"

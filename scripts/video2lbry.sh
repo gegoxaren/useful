@@ -4,6 +4,10 @@
 #
 # Encodes videos so they are ready to be uploaded to LBRY.
 #
+# Authors:
+#    Gustav Hartvigsson 2024
+#    Distributed under the Cool Licence 1.1
+#
 # Changes
 # 2021-01-13
 #   * fixed up if statments

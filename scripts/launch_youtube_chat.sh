@@ -1,6 +1,11 @@
 #!/usr/bin/env bash
 ####
 # FILE NAME: launch_youtube_chat.sh
+# 
+# Authors:
+#    Gustav Hartvigsson 2024
+#    Distributed under the Cool Licence 1.1
+#
 #
 # Launch a web browser with the chat pop-out for a YouTube live stream.
 #
