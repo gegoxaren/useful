@@ -69,7 +69,7 @@ function __download_updates () {
 }
 
 function __reboot () {
-  eval __REBOOT_COMMAND
+  eval $__REBOOT_COMMAND
 }
 
 function __parse_args () {
