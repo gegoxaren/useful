@@ -51,13 +51,15 @@ function __sanity_check () {
 } 
 
 function __check_for_updates () {
-  __silentpkcon get-updates
+  __silent pkcon get-updates
   if [[ $? == 0 ]]; then
     echo "Updates are available!"
     echo ""
     __UPDATES_AVAILABLE=true
+    echo "Updates available."
   else
     __UPDATES_AVAILABLE=false
+    echo "No updates available."
   fi
 }
 
@@ -66,7 +68,6 @@ function __download_updates () {
   if [[ $? == 0 ]];then
     __UPDATES_AVAILABLE=true
   else
-    ## huh?
     __UPDATES_AVAILABLE=false
   fi
 
@@ -77,13 +78,6 @@ function __reboot () {
 }
 
 function __parse_args () {
-
-  if [[ -z "$1" ]]
-  then
-    echo "Try --help or -h."
-    exit 1
-  fi
-  
   while [[ $# -gt 0 ]]
   do
     case $1 in
@@ -115,8 +109,9 @@ function __parse_args () {
 }
 
 function __main () {
-  __satity_check
+  __sanity_check
   __parse_args $@
+  __check_for_updates
 
   if [[ ( __DO_DOWNLOAD == true ) && ( __UPDATE_AVAILABLE == true ) ]]; then
     __do_download
