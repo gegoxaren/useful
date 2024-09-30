@@ -62,7 +62,7 @@ function __check_for_updates () {
 }
 
 function __download_updates () {
-  pkgcon update --download-only
+  pkcon update --download-only
   if [[ $? == 0 ]];then
     __UPDATES_AVAILABLE=true
   else
