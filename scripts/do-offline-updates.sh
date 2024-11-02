@@ -115,11 +115,11 @@ function __main () {
   __check_for_updates
 
   if [[ ( "$__DO_DOWNLOAD" == true ) && ( "$__UPDATES_AVAILABLE" == true ) ]]; then
-    __do_download
+    __download_updates
   fi
 
   if [[ ( "$__DO_REBOOT" == true ) && ( "$__UPDATES_AVAILABLE" == true ) ]]; then
-    __do_reboot
+    __reboot
   fi
 }
 
