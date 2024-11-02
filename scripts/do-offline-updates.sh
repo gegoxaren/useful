@@ -62,7 +62,7 @@ function __check_for_updates () {
 }
 
 function __download_updates () {
-  pkcon update --download-only
+  pkcon update --only-download
   if [[ $? == 0 ]];then
     __UPDATES_AVAILABLE=true
   else
@@ -73,6 +73,7 @@ function __download_updates () {
 }
 
 function __reboot () {
+  pkcon offline-trigger
   echo "reboot"
   eval $__REBOOT_COMMAND
 }
