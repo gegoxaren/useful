@@ -33,6 +33,8 @@ function __silent () {
   return $?
 }
 
+export -f __silent
+
 ####
 # FUNCTION __find_tool
 #
@@ -50,3 +52,5 @@ function __find_tool () {
     __SANITY=false
   fi
 }
+
+export -f __find_tool

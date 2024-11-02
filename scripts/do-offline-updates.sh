@@ -1,6 +1,5 @@
 #!/usr/bin/env bash
 
-
 ####
 # FILE NAME do-offline-updates.sh
 #
@@ -56,10 +55,9 @@ function __check_for_updates () {
     echo "Updates are available!"
     echo ""
     __UPDATES_AVAILABLE=true
-    echo "Updates available."
   else
-    __UPDATES_AVAILABLE=false
     echo "No updates available."
+    __UPDATES_AVAILABLE=false
   fi
 }
 
@@ -68,16 +66,19 @@ function __download_updates () {
   if [[ $? == 0 ]];then
     __UPDATES_AVAILABLE=true
   else
+    ## huh?
     __UPDATES_AVAILABLE=false
   fi
 
 }
 
 function __reboot () {
+  echo "reboot"
   eval $__REBOOT_COMMAND
 }
 
 function __parse_args () {
+
   while [[ $# -gt 0 ]]
   do
     case $1 in
@@ -113,11 +114,11 @@ function __main () {
   __parse_args $@
   __check_for_updates
 
-  if [[ ( __DO_DOWNLOAD == true ) && ( __UPDATE_AVAILABLE == true ) ]]; then
+  if [[ ( "$__DO_DOWNLOAD" == true ) && ( "$__UPDATES_AVAILABLE" == true ) ]]; then
     __do_download
   fi
 
-  if [[ ( __DO_REBOOT == true ) && ( __UPDATE_AVAILABLE == true ) ]]; then
+  if [[ ( "$__DO_REBOOT" == true ) && ( "$__UPDATES_AVAILABLE" == true ) ]]; then
     __do_reboot
   fi
 }
